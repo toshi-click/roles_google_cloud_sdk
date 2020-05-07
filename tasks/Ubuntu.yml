@@ -1,0 +1,45 @@
+---
+# パッケージインストール-----------------------------------------------------------------------------------------
+- name: Install gcloud dependency packages
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  vars:
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+
+- name: add gcloud apt repository
+  apt_repository:
+    # repo: 'deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main'
+    repo: 'deb https://packages.cloud.google.com/apt cloud-sdk main'
+    state: present
+    filename: google-cloud-sdk.list
+    update_cache: yes
+
+- name: add gcloud apt-key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Install google-cloud-sdk
+  apt:
+    pkg: google-cloud-sdk
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install google-cloud-sdk extra packages
+  apt:
+    pkg: "{{ packages }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  vars:
+    packages:
+      - google-cloud-sdk-app-engine-python
+      - google-cloud-sdk-app-engine-python-extras
+      - kubectl

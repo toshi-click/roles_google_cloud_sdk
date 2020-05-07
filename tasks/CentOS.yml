@@ -1,0 +1,13 @@
+---
+- name: set Google Cloud Repo
+  copy:
+    src: "etc/yum.repos.d/google-cloud.repo"
+    dest: /etc/yum.repos.d/google-cloud.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install Google Cloud SDK
+  yum:
+    name: google-cloud-sdk
+    state: present
